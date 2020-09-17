@@ -1,0 +1,4 @@
+大数据学习资料:https://legacy.gitbook.com/@zhenchao125
+
+
+log4j配置内容详解：https://www.jianshu.com/p/ccafda45bcea

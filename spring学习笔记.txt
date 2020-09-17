@@ -1,0 +1,59 @@
+IOC：
+DI：依赖注入
+
+设置bean必须要给id和class属性赋值，抽象bean可以不用写class
+ApplicationXMLContext ctx= new CLassPathXmlApplicationContext("applicationXML.xml")
+User user = ctx.getBean("bean的id");
+
+property用setter方法注入
+<property name="setter方法名" value="赋值"></property>
+
+ref引用bean之间的相互关系
+<property name="setter方法名" ref="bean的id"></property>
+
+使用构造器注入属性值可用制定参数的位置和参数的类型！以区分重载的构造器，
+<constructor-arg value="" type="java.lang.String" index="索引"></constructor-arg>
+
+字面值：可用字符创表示的值，可以通过《value》元素标签或value属性进行注入,若字面值中包含特殊字符可用<![CDATA[$1]]>包裹起来
+
+内部bean不能被外部访问，设置id值无效!
+
+为级联属性赋值:  属性需要先被定义
+<constructor-arg ref="bean"></constructor-arg>
+<property name="bean.属性名" value="221"></property>
+
+为集合属性赋值:
+<property name="list属性">
+	<list>
+		<ref bean="泛型类"/>
+		<ref bean="泛型类"/>
+	</list>
+</property>
+
+为map属性赋值:
+<property name="map属性">
+	<map>
+		<entry key="AA" value-ref="car"></entry>
+		<entry key="BB" value-ref="car2"></entry>
+	</map>
+</property>
+
+为Properties属性赋值:
+<property name="properties属性">
+	<props>
+		<prop key="AA" ></prop>
+		<prop key="BB"></prop>
+	</props>
+</property>
+
+使用p命名空间更加简洁
+<bean id="user" class=".." p:username="hgb" p:age="21" p:sex="man"></bean>
+可使用autowire自动装配,参数byName/byType(只能指向唯一)
+
+bean配置的继承，使用bean的parent属性，设置abstract=“true”会变成抽象bean，抽象bean不能被实例化，只能被继承。
+
+bean的依赖，使用bean的depends-on属性
+
+使用bean的scope属性来配置bean的作用域：
+singleton：默认值，容器初始化创建bean实例，在整个容器生命周期中只创建一个bean，为单例bean
+prototype：原型的，容器初始化创建时不创建bean的实例，而在每次请求bean时创建一个新的bean实例
