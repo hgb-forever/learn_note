@@ -10,7 +10,7 @@ PHP脚本主要应用与三个领域：
 
 PHP程序工作流程
 
-![image-20210520144332572](E:\hgb\learnnotes\images\image-20210520144332572.png)
+![image-20210520144332572](E:\hgb\learn_note\images\image-20210520144332572.png)
 
 # 二、搭建PHP环境
 
@@ -985,7 +985,9 @@ throw new Exception('Uncaught Exception occurred');
 
 
 
-# PHP $_REQUEST
+# PHP 网络请求
+
+## PHP $_REQUEST
 
 PHP $_REQUEST 用于收集HTML表单提交的数据。
 
@@ -1031,7 +1033,7 @@ echo $name;
 </html>
 ```
 
-GET请求
+## GET请求
 
 ```html
 <html>
@@ -1057,5 +1059,79 @@ echo "Study " . $_GET['subject'] . " @ " . $_GET['web'];
  
 </body>
 </html>
+```
+
+# PHP 特殊符号
+
+@加在变量或者函数前面用于屏蔽错误信息，列如：
+
+```php
+@define("hgb","awesome");
+```
+
+# 连接数据库
+
+MySQl
+
+Redis
+
+## Pdo
+
+配置PHP文件以支持Pdo，php.ini
+
+```
+extension=php_pdo.dll
+```
+
+添加各数据库的Pdo支持
+
+```
+;extension=php_pdo_firebird.dll
+;extension=php_pdo_informix.dll
+;extension=php_pdo_mssql.dll
+;extension=php_pdo_mysql.dll
+;extension=php_pdo_oci.dll
+;extension=php_pdo_oci8.dll
+;extension=php_pdo_odbc.dll
+;extension=php_pdo_pgsql.dll
+;extension=php_pdo_sqlite.dll
+```
+
+实例
+
+```php
+<?php
+$dbms='mysql';     //数据库类型
+$host='localhost'; //数据库主机名
+$dbName='test';    //使用的数据库
+$user='root';      //数据库连接用户名
+$pass='';          //对应的密码
+$dsn="$dbms:host=$host;dbname=$dbName";
+
+
+try {
+    $dbh = new PDO($dsn, $user, $pass); //初始化一个PDO对象
+    echo "连接成功<br/>";
+    /*你还可以进行一次搜索操作
+    foreach ($dbh->query('SELECT * from FOO') as $row) {
+        print_r($row); //你可以用 echo($GLOBAL); 来看到这些值
+    }
+    */
+    $dbh = null;
+} catch (PDOException $e) {
+    die ("Error!: " . $e->getMessage() . "<br/>");
+}
+//默认这个不是长连接，如果需要数据库长连接，需要最后加一个参数：array(PDO::ATTR_PERSISTENT => true) 变成这样：
+$db = new PDO($dsn, $user, $pass, array(PDO::ATTR_PERSISTENT => true));
+
+?>
+```
+
+## 获取数据
+
+使用fetch()或fetchALL()获取数据，需添加获取规则
+
+```
+ $total = $res2->fetch(PDO::FETCH_ASSOC);
 ```
 
